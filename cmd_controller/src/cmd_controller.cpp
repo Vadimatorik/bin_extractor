@@ -7,7 +7,7 @@
 #include <string.h>
 
 int cmd_controller::set_arg (int c, char **v) {
-    if ((c != 7) || (v == nullptr)) {
+    if ((c != 11) || (v == nullptr)) {
         this->print_help();
         return EINVAL;
     }
@@ -20,7 +20,7 @@ int cmd_controller::set_arg (int c, char **v) {
 
 void cmd_controller::print_help () {
     printf("Usage:\n"
-           "\tcmd_controller -b addr_base -s addr_start -e addr_end\n");
+           "\tcmd_controller -p path_in -b addr_base -s addr_start -e addr_end -o path_out\n");
     exit(0);
 }
 
@@ -32,8 +32,22 @@ int cmd_controller::parse (bin_extractor_cfg *return_struct) {
     int rv = 0;
 
     /// Символ <<:>> означает, что после буквы должен быть строка-аргумент.
-    while ((c = getopt(argc, argv, "b:s:e:h?")) != -1) {
+    while ((c = getopt(argc, argv, "p:b:s:e:o:h?")) != -1) {
         switch (c) {
+            case 'p':
+                if ((rv = this->check_cmd_arg('p')) != 0) {
+                    return rv;
+                }
+                return_struct->f_in = optarg;
+                break;
+
+            case 'o':
+                if ((rv = this->check_cmd_arg('o')) != 0) {
+                    return rv;
+                }
+                return_struct->f_out = optarg;
+                break;
+
             case 'b':
                 if ((rv = this->check_cmd_arg('b')) != 0) {
                     return rv;
