@@ -74,7 +74,7 @@ int bin_extractor::check_input_prarm () {
 void bin_extractor::get_real_section_len (uint32_t &len) {
     int i = this->section_start + this->section_len - 1;
     for (; i >= this->section_start; i--) {
-        if (this->bin[i] != 0) {
+        if (this->bin[i] != 0xFF) {
             break;
         }
     }
@@ -99,7 +99,6 @@ int bin_extractor::write_section () {
 
     return 0;
 }
-
 
 int bin_extractor::start () {
     int rv = 0;
