@@ -79,7 +79,7 @@ void bin_extractor::get_real_section_len (uint32_t &len) {
         }
     }
 
-    len = i + 1;
+    len = i - this->section_start + 1;
     printf("real section len:\t%u\n", len);
 }
 
